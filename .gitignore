@@ -1,0 +1,51 @@
+# Виртуальные окружения
+venv/
+env/
+.venv/
+
+# Папки отчетов
+allure_report/
+allure_results/
+xml_report/
+
+# Лог-файлы
+*.log
+
+# Кэшированные файлы Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Папки и файлы IDE
+.idea/
+.vscode/
+*.iml
+*.sublime-workspace
+
+# Конфиденциальные данные
+.env
+
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+
+# Резервные файлы редакторов
+*~
+*.swp
+
+# Базы данных
+*.sqlite
+*.db
+
+# Тестовые данные
+test_data/
+test_results/
+
+# Docker
+docker-compose.override.yml
+Dockerfile
+
+# Файлы большого размера (например, изображения, архивы)
+*.psd
+*.zip
+*.tar.gz
