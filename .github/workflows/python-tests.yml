@@ -26,25 +26,27 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  
 
-    - name: Set up .env variables
-      run: |
-        echo "RUN=test_smoke.py::TestSmoke" >> .env 
-        echo "MARKER=smoke" >> .env  
-
     - name: Install Allure Commandline
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y allure
-        sudo ln -s /opt/allure-commandline-2.17.0/bin/allure /usr/local/bin/allure  
+        sudo apt-get install -y wget unzip
+        wget -qO- https://github.com/allure-framework/allure2/releases/download/2.17.0/allure-2.17.0.zip -O allure.zip
+        unzip allure.zip -d /opt
+        sudo ln -s /opt/allure-2.17.0/bin/allure /usr/local/bin/allure  
+
+    - name: Set up .env variables
+      run: |
+        echo "RUN=test_smoke.py::TestSmoke" >> .env  
+        echo "MARKER=smoke" >> .env  
 
     - name: Run tests
       run: |
-        python run.py  # Запуск вашего скрипта
+        python run.py
       env:
         pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
         LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
-        RUN: test_smoke.py::TestSmoke
-        MARKER: smoke
+        RUN: test_smoke.py::TestSmoke  # Указываем переменную RUN
+        MARKER: smoke  # Указываем переменную MARKER
 
     - name: Generate Allure Report
       run: |
