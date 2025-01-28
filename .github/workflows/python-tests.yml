@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest  # Используем Windows вместо Ubuntu
 
     steps:
     - name: Checkout code
@@ -26,11 +26,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Установка Allure
+    # Устанавливаем Allure через Chocolatey на Windows
     - name: Install Allure commandline
       run: |
-        sudo apt-get update
-        sudo apt-get install -y allure
+        choco install allure-commandline
 
     # Запуск тестов
     - name: Run Tests
@@ -42,7 +41,7 @@ jobs:
       run: |
         allure generate ./allure_results -o ./allure_report --clean
 
-    # Открытие отчета Allure
+    # Открытие отчета Allure (необязательно)
     - name: Open Allure Report
       run: |
         allure open ./allure_report
