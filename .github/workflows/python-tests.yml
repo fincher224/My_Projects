@@ -10,11 +10,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Операционная система для выполнения действий
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3  #
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,12 +28,16 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=10
+        pytest --maxfail=1
 
-    - name: Install allure commandline
+    - name: Install Allure commandline
       run: |
         sudo apt-get update
-        sudo apt-get install -y allure  
+        sudo apt-get install -y wget unzip
+        wget https://github.com/allure-framework/allure2/releases/download/2.18.1/allure-2.18.1.tgz
+        tar -zxvf allure-2.18.1.tgz
+        sudo mv allure-2.18.1 /opt/allure
+        sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure  
 
     - name: Generate Allure report
       run: |
