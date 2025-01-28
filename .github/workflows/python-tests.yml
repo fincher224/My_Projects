@@ -30,7 +30,8 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y allure
-          allure --version
+          sudo ln -s /opt/allure-commandline-2.17.0/bin/allure /usr/local/bin/allure 
+          allure --version  
 
       - name: Run tests and generate Allure report
         run: |
