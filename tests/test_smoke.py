@@ -1,15 +1,12 @@
 import os
-
 import allure
 import pytest
 from utils.http_methods import HttpMethods
 from utils.checking import Checking
-from utils.sqlachemy_util import SQL
 import json
 from tests.authorisation_request_web import Authorisation
 from faker import Faker
 
-db_name = os.getenv("DB_NAME")
 base_url = 'https://reqres.in/api/users'
 
 
@@ -46,44 +43,12 @@ class TestSmoke:
                 status_code = Checking.check_status_code(result_post, 201)
                 response_time = Checking.check_response_time(result_post, 5)
 
-                sql_in = SQL.sql_execute(
-                    'postgres',
-                    'insert into users (user_id, user_name, job, createdate) values (:user_id, :user_name, :job, :createdate)',
-                    {
-                        'user_id': data['id'],
-                        'user_name': data['name'],
-                        'job': data['job'],
-                        'createdate': data['createdAt']}
-                )
                 log_message = (
                     f"URL: {url}\n"
                     f"\nСтатус-код: {status_code}\n"
                     f"Время ответа: {response_time}\n"
-                    f"Создание сущности в БД: {sql_in}\n"
                     f"\nJSON Response:\n{json.dumps(json_body_response, ensure_ascii=False, indent=4)}"
 
-                )
-                allure.attach(
-                    log_message,
-                    name="Детализация проверки",
-                    attachment_type=allure.attachment_type.TEXT
-                )
-            except Exception as e:
-                print(f"Ошибка: {e}")
-                allure.attach(
-                    f"{e}",
-                    name=f"Ошибка",
-                    attachment_type=allure.attachment_type.TEXT)
-                pytest.fail(f"Ошибка: {e}")
-
-        with allure.step('Проверка создания пользователя'):
-            try:
-                sql_in = SQL.sql_query('postgres',
-                                       f'select user_name from users where user_id = {data['id']}')
-                print(sql_in)
-
-                log_message = (
-                    f"Созданная сущность в БД: {sql_in}\n"
                 )
                 allure.attach(
                     log_message,

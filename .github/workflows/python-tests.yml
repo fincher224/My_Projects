@@ -12,13 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      DB_HOST: "localhost"   # Укажите хост вашей базы данных
-      DB_PORT: "5432"                  # Укажите порт вашей базы данных
-      DB_USER: "postgres"      # Укажите имя пользователя базы данных
-      DB_PASSWORD: "zxasqw123qwaszx"  # Укажите пароль пользователя
-      DB_NAME: "postgres"          # Укажите имя базы данных
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
