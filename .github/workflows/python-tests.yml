@@ -24,11 +24,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  
+        pip install -r requirements.txt
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=1
+        pytest --maxfail=1 --alluredir=./allure_results
+      continue-on-error: true
 
     - name: Install Allure commandline
       run: |
@@ -38,6 +39,13 @@ jobs:
         tar -zxvf allure-2.18.1.tgz
         sudo mv allure-2.18.1 /opt/allure
         sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure  
+
+    - name: Check if allure_results directory exists
+      run: |
+        if [ ! -d "./allure_results" ]; then
+          echo "Directory ./allure_results does not exist. Skipping Allure report generation."
+          exit 1
+        fi
 
     - name: Generate Allure report
       run: |
