@@ -35,7 +35,7 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=1 --alluredir=./allure_results
+        pytest -v -s --maxfail=5 --alluredir=./allure_results
 
     - name: Install Allure commandline
       run: |
