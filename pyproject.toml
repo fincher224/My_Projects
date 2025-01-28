@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "APIProject"
+name = "API_Project_0"
 version = "0.1.0"
 authors = [{ name="M.Dikiy"}]
 dependencies = [
