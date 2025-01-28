@@ -28,7 +28,7 @@ jobs:
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=1 --alluredir=./allure_results
+        pytest --maxfail=10 --alluredir=./allure_results --junit-xml=xml_report/report.xml
       continue-on-error: true
 
     - name: Install Allure commandline
@@ -49,6 +49,12 @@ jobs:
       with:
         name: allure-report
         path: ./allure_report
+
+    - name: Upload JUnit XML report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: junit-report
+        path: xml_report/report.xml
 
     - name: Clean up Allure artifacts
       run: |
