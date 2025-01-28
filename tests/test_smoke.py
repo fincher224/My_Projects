@@ -1,3 +1,5 @@
+import os
+
 import allure
 import pytest
 from utils.http_methods import HttpMethods
@@ -7,6 +9,7 @@ import json
 from tests.authorisation_request_web import Authorisation
 from faker import Faker
 
+db_name = os.getenv("DB_NAME")
 base_url = 'https://reqres.in/api/users'
 
 

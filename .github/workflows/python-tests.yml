@@ -12,20 +12,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_DB: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: zxasqw123qwaszx
-        options: >-
-          --health-cmd="pg_isready -U postgres -d postgres"
-          --health-timeout=30s
-          --health-start-period=10s
-          --health-retries=5
+    env:
+      DB_HOST: "localhost"   # Укажите хост вашей базы данных
+      DB_PORT: "5432"                  # Укажите порт вашей базы данных
+      DB_USER: "postgres"      # Укажите имя пользователя базы данных
+      DB_PASSWORD: "zxasqw123qwaszx"  # Укажите пароль пользователя
+      DB_NAME: "postgres"          # Укажите имя базы данных
 
     steps:
     - name: Checkout code

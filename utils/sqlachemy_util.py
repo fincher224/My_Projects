@@ -1,7 +1,8 @@
+import os
 from sqlalchemy import select, create_engine, Table, column, INTEGER, String, MetaData, ForeignKey, text
+from sqlalchemy.dialects.postgresql import psycopg2
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError, ProgrammingError, OperationalError
-
 
 class SQL:
     _engine = None                                                                              # переменная для хранения единственного экземпляра движка
@@ -10,7 +11,7 @@ class SQL:
     @classmethod
     def get_engine(cls, bd):                                                                     # Метод для получения движка или "образа" БД
         if cls._engine is None:
-            db_url = f'postgresql+psycopg2://postgres:zxasqw123qwaszx@localhost:5432/postgres'
+            db_url = f'postgresql+psycopg2://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}'
             cls._engine = create_engine(db_url, echo=False)
         return cls._engine
 
