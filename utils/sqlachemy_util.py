@@ -10,7 +10,7 @@ class SQL:
     @classmethod
     def get_engine(cls, bd):                                                                     # Метод для получения движка или "образа" БД
         if cls._engine is None:
-            db_url = f'postgresql+psycopg2://postgres:zxasqw123qwaszx@localhost:5432/{bd}'
+            db_url = f'postgresql+psycopg2://postgres:zxasqw123qwaszx@localhost:5432/postgres'
             cls._engine = create_engine(db_url, echo=False)
         return cls._engine
 
