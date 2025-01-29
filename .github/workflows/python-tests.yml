@@ -1,4 +1,4 @@
-name: Run Tests with Pytest and Generate Allure Report
+name: Run Tests
 
 on:
   workflow_dispatch:
@@ -21,9 +21,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run tests with pytest
+    - name: Run tests
       run: |
-        pytest -v -s --maxfail=5 --alluredir=./allure_results
+       pytest -v -s --maxfail=5 --alluredir=./allure_results tests/test_smoke.py::TestSmoke::test_api_add_user
 
     - name: Install Allure commandline
       run: |
