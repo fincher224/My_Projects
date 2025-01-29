@@ -1,4 +1,3 @@
-import os
 import allure
 import pytest
 from utils.http_methods import HttpMethods
@@ -15,13 +14,13 @@ class TestSmoke:
     @allure.tag('api')
     @allure.parent_suite("Тест")
     @allure.suite('https://reqres.in')
-    @allure.sub_suite('Добавление и проверка пользователя')
+    @allure.sub_suite('Запросы')
     @allure.title('API add_user')
     def test_api_add_user(self):
         with allure.step('Авторизация'):
             token = Authorisation.get_token('eve.holt@reqres.in', 'cityslicka')
 
-        with allure.step('Создание пользователя и добавление его в БД'):
+        with allure.step('Создание пользователя'):
             try:
                 url = 'https://reqres.in/api/users'
 
@@ -37,8 +36,6 @@ class TestSmoke:
                 print(f'\nСоздание пользователя\nPOST URL: {url}')
                 result_post = HttpMethods.post(url, request_body, token)
                 json_body_response = result_post.json()
-                data = json.loads(result_post.text)
-                print(data)
 
                 status_code = Checking.check_status_code(result_post, 201)
                 response_time = Checking.check_response_time(result_post, 5)
@@ -67,7 +64,7 @@ class TestSmoke:
     @allure.tag('api')
     @allure.parent_suite("Тест")
     @allure.suite('https://reqres.in')
-    @allure.sub_suite('Добавление и проверка пользователя')
+    @allure.sub_suite('Запросы')
     @allure.title('API list_user')
     def test_api_list_user(self):
         with allure.step('Авторизация'):
@@ -79,8 +76,12 @@ class TestSmoke:
 
                 print(f'\nВывод всех пользователей\nGET URL: {url}')
                 result_post = HttpMethods.get(url, token)
+                json_body_response = result_post.json()
 
-                key = Checking.check_json_key(result_post,  [
+                status_code = Checking.check_status_code(result_post, 200)
+                response_time = Checking.check_response_time(result_post, 5)
+
+                key, result = Checking.check_json_key(result_post,  [
                     'page', 'per_page', 'total', 'total_pages', 'data', 'support',
                     'data[0]', 'data[1]', 'data[2]', 'data[3]', 'data[4]', 'data[5]',
                     'support.url', 'support.text', 'data[0].id', 'data[0].email',
@@ -92,12 +93,26 @@ class TestSmoke:
                     'data[4].email', 'data[4].first_name', 'data[4].last_name', 'data[4].avatar',
                     'data[5].id', 'data[5].email', 'data[5].first_name',
                     'data[5].last_name', 'data[5].avatar',], detail=True)
-                print(key)
 
-                key_value = Checking.check_json_value(result_post, [
+                key_value, result_1 = Checking.check_json_value(result_post, [
                     ('$.data[5].email', 'tracey.ramos@reqres.in'),
                     ('$.data[5].id', 6)
                 ])
+
+                log_message = (
+                    f"URL: {url}\n"
+                    f"\nСтатус-код: {status_code}\n"
+                    f"Время ответа: {response_time}\n"
+                    f"Проверка json структуры: {result}\n"
+                    f"{result_1}\n"
+                    f"\nJSON Response:\n{json.dumps(json_body_response, ensure_ascii=False, indent=4)}"
+
+                )
+                allure.attach(
+                    log_message,
+                    name="Детализация проверки",
+                    attachment_type=allure.attachment_type.TEXT
+                )
 
             except Exception as e:
                 print(f"Ошибка: {e}")
