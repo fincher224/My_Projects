@@ -1,12 +1,7 @@
 name: Run Tests with Pytest and Generate Allure Report
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   test:
