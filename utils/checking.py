@@ -48,6 +48,7 @@ class Checking:
             }
 
         # Извлекаем все ключи и значения
+        success = False
         actual_keys, key_values = Checking.extract_keys(parsed_json)
 
         if detail:
@@ -64,9 +65,10 @@ class Checking:
         if detail:
             if result["success"]:
                 print("Проверка структуры JSON - успешно")
+                success = True
             else:
                 assert False, f"Проверка структуры JSON - неуспешно. Отсутствуют ключи: {missing_keys}"
-        return result
+        return result, success
 
     # Метод для проверки значения обязательных полей в ответе запроса
     @staticmethod
