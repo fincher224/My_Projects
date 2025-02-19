@@ -57,3 +57,5 @@ jobs:
       - name: Clean up Allure artifacts
         run: |
           rm -rf allure-2.18.1.tgz allure-2.18.1
+
+    needs: build
