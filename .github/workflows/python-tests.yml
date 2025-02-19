@@ -31,6 +31,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
     - name: Run tests
       run: |
        pytest -v -s --maxfail=5 --alluredir=./allure_results tests/test_smoke.py::TestSmoke::test_api_add_user
