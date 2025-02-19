@@ -23,7 +23,7 @@ jobs:
 
     - name: Run tests
       run: |
-       pytest -v -s --maxfail=5 --alluredir=./allure_results tests/test_smoke.py::TestSmoke::test_api_add_user
+       pytest -v -s --maxfail=5 --alluredir=./allure_results tests/test_smoke.py::TestSmoke
 
     - name: Install Allure commandline
       run: |
